@@ -12,7 +12,7 @@ echo "---> Starting Spring Boot application"
 echo "--> # APP_FILE = $APP_FILE"
 echo "--> # JAVA_OPTS = $JAVA_OPTS"
 APP_FILE="${APP_FILE:-app.jar}"
-LAUNCH_SCRIPT="${LAUNCH_SCRIPT:-launch.sh}"
+LAUNCH_SCRIPT="${LAUNCH_SCRIPT:-bin/launch.sh}"
 
 if [[ -f "$LAUNCH_SCRIPT" ]]; then
   echo "---> LAUNCH_SCRIPT found"

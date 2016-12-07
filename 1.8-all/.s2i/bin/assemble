@@ -27,7 +27,7 @@ if [ -f "build.gradle" ]; then
   echo "Found build.gradle"
   BUILDER=gradle
   BUILD_ARGS=${GRADLE_ARGS:-${BUILD_ARGS:-"build"}}
-  ARTIFACT_DIR=${ARTIFACT_DIR:-build/libs}
+  ARTIFACT_DIR=${ARTIFACT_DIR:-build/distributions}
   if [ -f "gradlew" ]; then
     echo "---> Building application with wrapper..."
     BUILDER="./gradlew"
@@ -61,19 +61,19 @@ echo "---> Building application with..."
 echo "--------> $BUILDER $BUILD_ARGS"
 $BUILDER $BUILD_ARGS
 
-result_file=$(find $ARTIFACT_DIR -name *.jar)
+result_file=$(find $ARTIFACT_DIR -name *.tar)
 echo "---> Rename artifact $result_file"
 if [ -z "$result_file" ]; then
   echo "---> Build file could not be found"
   exit 1
 fi
-mv $result_file app.jar
+tar xf $result_file --strip-components=1 -C .
 
-launch_script=$(find $ARTIFACT_DIR/../scripts -not -name "*.bat" -type f)
+launch_script=$(find bin -not -name "*.bat" -type f)
 echo "---> Rename launch script $launch_script"
 if [ -z "$launch_script" ]; then
   echo "---> Launch script could not be found"
   exit 1
 fi
-mv $launch_script launch.sh
-chmod +x launch.sh
+mv $launch_script bin/launch.sh
+chmod +x bin/launch.sh
