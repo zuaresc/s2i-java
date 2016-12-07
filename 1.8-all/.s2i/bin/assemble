@@ -61,10 +61,19 @@ echo "---> Building application with..."
 echo "--------> $BUILDER $BUILD_ARGS"
 $BUILDER $BUILD_ARGS
 
-echo "---> Rename artifact $(find $ARTIFACT_DIR -name *.jar)"
 result_file=$(find $ARTIFACT_DIR -name *.jar)
+echo "---> Rename artifact $result_file"
 if [ -z "$result_file" ]; then
   echo "---> Build file could not be found"
   exit 1
 fi
 mv $result_file app.jar
+
+launch_script=$(find $ARTIFACT_DIR/../scripts -not -name "*.bat" -type f)
+echo "---> Rename launch script $launch_script"
+if [ -z "$launch_script" ]; then
+  echo "---> Launch script could not be found"
+  exit 1
+fi
+mv $launch_script launch.sh
+chmod +x launch.sh
